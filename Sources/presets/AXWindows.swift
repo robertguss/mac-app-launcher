@@ -15,13 +15,6 @@ func attribute<T>(_ element: AXUIElement, _ name: String) -> T? {
     return value as? T
 }
 
-func elementAttribute(_ element: AXUIElement, _ name: String) -> AXUIElement? {
-    var value: CFTypeRef?
-    guard AXUIElementCopyAttributeValue(element, name as CFString, &value) == .success, let value,
-          CFGetTypeID(value) == AXUIElementGetTypeID() else { return nil }
-    return (value as! AXUIElement)
-}
-
 private func valueAttribute(_ element: AXUIElement, _ name: String) -> AXValue? {
     var value: CFTypeRef?
     guard AXUIElementCopyAttributeValue(element, name as CFString, &value) == .success, let value,
