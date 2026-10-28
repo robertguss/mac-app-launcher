@@ -8,5 +8,6 @@ let package = Package(
         .target(name: "PresetsCore"),
         .executableTarget(name: "presets", dependencies: ["PresetsCore"]),
         .testTarget(name: "PresetsCoreTests", dependencies: ["PresetsCore"]),
-    ]
+    ],
+    swiftLanguageModes: [.v5]
 )
