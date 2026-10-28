@@ -39,12 +39,12 @@ func frame(of element: AXUIElement) -> Rect? {
     return Rect(x: position.x, y: position.y, width: size.width, height: size.height)
 }
 
-func standardWindows(of app: NSRunningApplication) -> [AXWindow] {
+func standardWindows(of app: NSRunningApplication, includingMinimized: Bool = false) -> [AXWindow] {
     let appElement = AXUIElementCreateApplication(app.processIdentifier)
     let elements: [AXUIElement] = attribute(appElement, kAXWindowsAttribute) ?? []
     return elements.compactMap { element in
         guard attribute(element, kAXSubroleAttribute) as String? == kAXStandardWindowSubrole,
-              attribute(element, kAXMinimizedAttribute) as Bool? != true,
+              includingMinimized || attribute(element, kAXMinimizedAttribute) as Bool? != true,
               let frame = frame(of: element) else { return nil }
         return AXWindow(element: element, app: app, title: attribute(element, kAXTitleAttribute) ?? "", frame: frame)
     }

@@ -36,8 +36,15 @@ func apply(name: String, store: PresetStore) async throws {
             skipped += 1
             continue
         }
+        if attribute(window.element, kAXMinimizedAttribute) as Bool? == true {
+            guard AXUIElementSetAttributeValue(window.element, kAXMinimizedAttribute as CFString, kCFBooleanFalse) == .success else {
+                print("skipped  \(label(entry)): window refused to un-minimize")
+                skipped += 1
+                continue
+            }
+        }
         let target = entry.frame.offset(by: display.origin)
-        if window.frame.isClose(to: target) {
+        if frame(of: window.element)?.isClose(to: target) == true {
             print("in place \(label(entry))")
             inPlace += 1
         } else if let landed = move(window, to: target), landed.isClose(to: target) {
@@ -58,7 +65,7 @@ func apply(name: String, store: PresetStore) async throws {
 private func liveWindows(of bundleIDs: Set<String>, chrome: ChromeProfiles) -> [LiveWindow<AXWindow>] {
     NSWorkspace.shared.runningApplications
         .filter { bundleIDs.contains($0.bundleIdentifier ?? "") }
-        .flatMap(standardWindows(of:))
+        .flatMap { standardWindows(of: $0, includingMinimized: true) }
         .map { LiveWindow(handle: $0, identity: identity(of: $0, chrome: chrome)) }
 }
 

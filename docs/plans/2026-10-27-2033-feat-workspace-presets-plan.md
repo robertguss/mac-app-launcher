@@ -150,7 +150,7 @@ The save path is the reverse: take the display holding the frontmost app's focus
 
 ### Assumptions
 
-- Windows on other Spaces or minimized are not saved or moved; presets span one Space (deferred multi-Space support stays deferred).
+- Minimized windows are not saved. Apply includes minimized windows in matching and restores a matching window before placement instead of opening a duplicate. Windows on other Spaces remain outside the supported scope.
 - Raycast already holds Accessibility permission, or Robert grants it once. Proof in this session runs the binary from WezTerm, which holds the permission.
 - When an app has several saved entries and fewer open windows, the extra entries get one reopen each; apps that answer reopen without creating a second window leave those entries unplaced and reported.
 

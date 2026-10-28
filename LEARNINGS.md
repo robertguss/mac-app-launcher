@@ -13,6 +13,7 @@
 - Notion has a minimum window width of 640 points.
 - `kAXWindowsAttribute` returns an app's windows front to back for Chrome, which is how the most recently used window is chosen.
 - Accessibility permission belongs to the responsible app. Commands run inside a WezTerm session use WezTerm's grant, and Raycast Script Commands use Raycast's.
+- Minimized Chrome windows still expose their profile title and frame through AX. Apply must include them in matching and set `AXMinimized` to false before checking or placing the frame. Save must continue to exclude them. Verified against an existing Work window without opening a duplicate.
 
 ## Proof tooling
 
