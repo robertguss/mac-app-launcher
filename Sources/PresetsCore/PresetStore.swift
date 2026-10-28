@@ -15,7 +15,7 @@ public struct PresetStore: Sendable {
         return PresetStore(directory: support.appendingPathComponent("WorkspacePresets"))
     }
 
-    public func url(for name: String) -> URL {
+    private func url(for name: String) -> URL {
         directory.appendingPathComponent("\(name).json")
     }
 

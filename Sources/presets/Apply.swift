@@ -20,7 +20,7 @@ func apply(name: String, store: PresetStore) async throws {
 
     guard let display = activeDisplays().first(where: { $0.uuid == preset.display.uuid }) else {
         let hidden = hideApps(except: keep)
-        print("Display \"\(preset.display.name)\" is not connected: opened \(missing.count) apps, moved no windows, hid \(hidden.count) apps.")
+        print("Display \"\(preset.display.name)\" is not connected: opened \(Set(missing.map(\.bundleID)).count) apps, moved no windows, hid \(hidden.count) apps.")
         return
     }
 

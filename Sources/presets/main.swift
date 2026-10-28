@@ -10,6 +10,8 @@ guard AXIsProcessTrusted() else {
     fail("Accessibility permission is missing. Open System Settings → Privacy & Security → Accessibility and turn on the app that runs presets (Raycast or your terminal).")
 }
 
+AXUIElementSetMessagingTimeout(AXUIElementCreateSystemWide(), 1)
+
 do {
     switch arguments[0] {
     case "save": try save(name: arguments[1], store: .standard())

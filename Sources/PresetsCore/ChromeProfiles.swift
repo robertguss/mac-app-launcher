@@ -26,8 +26,7 @@ public struct ChromeProfiles: Sendable {
         let directory = namesByDirectory
             .filter { candidates.contains($0.value) }
             .map(\.key)
-            .sorted()
-            .first
+            .min()
         return ChromeProfile(directory: directory, label: label)
     }
 

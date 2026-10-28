@@ -41,7 +41,6 @@ func frame(of element: AXUIElement) -> Rect? {
 
 func standardWindows(of app: NSRunningApplication) -> [AXWindow] {
     let appElement = AXUIElementCreateApplication(app.processIdentifier)
-    AXUIElementSetMessagingTimeout(appElement, 1)
     let elements: [AXUIElement] = attribute(appElement, kAXWindowsAttribute) ?? []
     return elements.compactMap { element in
         guard attribute(element, kAXSubroleAttribute) as String? == kAXStandardWindowSubrole,
@@ -57,11 +56,13 @@ func identity(of window: AXWindow, chrome: ChromeProfiles) -> WindowIdentity {
     return WindowIdentity(bundleID: bundleID, profile: profile)
 }
 
+private let enhancedUserInterface = "AXEnhancedUserInterface"
+
 func move(_ window: AXWindow, to target: Rect) -> Rect? {
     let appElement = AXUIElementCreateApplication(window.app.processIdentifier)
-    let enhanced = attribute(appElement, "AXEnhancedUserInterface") as Bool? == true
-    if enhanced { AXUIElementSetAttributeValue(appElement, "AXEnhancedUserInterface" as CFString, kCFBooleanFalse) }
-    defer { if enhanced { AXUIElementSetAttributeValue(appElement, "AXEnhancedUserInterface" as CFString, kCFBooleanTrue) } }
+    let enhanced = attribute(appElement, enhancedUserInterface) as Bool? == true
+    if enhanced { AXUIElementSetAttributeValue(appElement, enhancedUserInterface as CFString, kCFBooleanFalse) }
+    defer { if enhanced { AXUIElementSetAttributeValue(appElement, enhancedUserInterface as CFString, kCFBooleanTrue) } }
 
     var position = CGPoint(x: target.x, y: target.y)
     var size = CGSize(width: target.width, height: target.height)

@@ -25,9 +25,8 @@ public struct Rect: Codable, Equatable, Sendable {
         Rect(x: x + origin.x, y: y + origin.y, width: width, height: height)
     }
 
-    public func isClose(to other: Rect, tolerance: Double = 2) -> Bool {
-        abs(x - other.x) <= tolerance && abs(y - other.y) <= tolerance
-            && abs(width - other.width) <= tolerance && abs(height - other.height) <= tolerance
+    public func isClose(to other: Rect) -> Bool {
+        abs(x - other.x) <= 2 && abs(y - other.y) <= 2 && abs(width - other.width) <= 2 && abs(height - other.height) <= 2
     }
 }
 
